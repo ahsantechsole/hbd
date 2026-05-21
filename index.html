@@ -1,300 +1,377 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
 <title>Happy Birthday, Nushaa 💕</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Petit+Formal+Script&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Petit+Formal+Script&family=Nunito:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
-  :root {
-    --rose:       #f2a7b8;
-    --blush:      #fce4ec;
-    --cream:      #fff8f5;
-    --petal:      #ffd6e0;
-    --gold:       #d4a76a;
-    --deeprose:   #c97b8a;
-    --text:       #5a3042;
-    --soft:       #9e6070;
-  }
+/* ══════════════ TOKENS ══════════════ */
+:root{
+  --rose:#f2a7b8; --blush:#fce4ec; --cream:#fff8f5;
+  --petal:#ffd6e0; --gold:#d4a76a; --goldl:#f0d4a0;
+  --deep:#c97b8a; --text:#5a3042; --soft:#9e6070;
+  --white:rgba(255,255,255,.82);
+  --card-shadow:0 12px 48px rgba(201,123,138,.22),0 2px 8px rgba(201,123,138,.12);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* ══════════════ BASE ══════════════ */
+html{scroll-behavior:smooth}
+body{
+  min-height:100vh;
+  font-family:'Nunito',sans-serif;
+  color:var(--text);
+  overflow-x:hidden;
+  background:#fff0f5;
+}
 
-  html, body {
-    height: 100%;
-    font-family: 'DM Sans', sans-serif;
-    background: var(--cream);
-    color: var(--text);
-    overflow: hidden;
-  }
+/* ══════════════ ANIMATED MESH BG ══════════════ */
+.mesh{
+  position:fixed;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, #ffe0eb 0%, transparent 60%),
+    radial-gradient(ellipse 70% 50% at 80% 90%, #ffd6e0 0%, transparent 55%),
+    radial-gradient(ellipse 60% 80% at 60% 40%, #fff0f5 0%, transparent 70%),
+    linear-gradient(160deg,#fff8f5 0%,#fce4ec 50%,#fff8f5 100%);
+  animation:meshShift 12s ease-in-out infinite alternate;
+}
+@keyframes meshShift{
+  0%  {filter:hue-rotate(0deg)  brightness(1)}
+  50% {filter:hue-rotate(8deg)  brightness(1.04)}
+  100%{filter:hue-rotate(-4deg) brightness(.98)}
+}
 
-  /* ── Floating petals background ── */
-  #petal-canvas {
-    position: fixed; inset: 0;
-    pointer-events: none;
-    z-index: 0;
-  }
+/* ══════════════ PETAL CANVAS ══════════════ */
+#petal-canvas{position:fixed;inset:0;pointer-events:none;z-index:1}
 
-  /* ── Slide wrapper ── */
-  #stage {
-    position: relative;
-    z-index: 1;
-    width: 100%; height: 100vh;
-    display: flex; align-items: center; justify-content: center;
-    padding: 1.5rem;
-  }
+/* ══════════════ SPARKLES ══════════════ */
+.sparkle{
+  position:fixed;pointer-events:none;z-index:2;
+  font-size:1rem;opacity:0;
+  animation:sparkleAnim var(--sd,3s) ease-in-out var(--ss,0s) infinite;
+}
+@keyframes sparkleAnim{
+  0%,100%{opacity:0;transform:scale(.5) rotate(0deg)}
+  40%    {opacity:.9;transform:scale(1.2) rotate(180deg)}
+  60%    {opacity:.7;transform:scale(1)   rotate(270deg)}
+}
 
-  .slide {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    max-width: 600px;
-    width: 100%;
-    animation: fadeSlideUp .9s cubic-bezier(.22,.68,0,1.2) both;
-  }
-  .slide.active { display: flex; }
+/* ══════════════ LAYOUT ══════════════ */
+#stage{
+  position:relative;z-index:3;
+  width:100%;
+  display:flex;align-items:center;justify-content:center;
+  min-height:100vh;
+  padding:clamp(.8rem,4vw,2rem) clamp(.6rem,4vw,1.5rem) 5rem;
+}
 
-  @keyframes fadeSlideUp {
-    from { opacity: 0; transform: translateY(40px) scale(.97); }
-    to   { opacity: 1; transform: translateY(0)  scale(1); }
-  }
+/* ══════════════ SLIDES ══════════════ */
+.slide{
+  display:none;
+  flex-direction:column;align-items:center;
+  width:100%;max-width:560px;
+}
+.slide.active{
+  display:flex;
+  animation:slideIn .7s cubic-bezier(.22,.68,0,1.15) both;
+}
+.slide.out{animation:slideOut .4s ease-in both}
+@keyframes slideIn{
+  from{opacity:0;transform:translateY(36px) scale(.96)}
+  to  {opacity:1;transform:translateY(0)    scale(1)}
+}
+@keyframes slideOut{
+  from{opacity:1;transform:translateY(0)    scale(1)}
+  to  {opacity:0;transform:translateY(-28px) scale(.97)}
+}
 
-  /* ── Card shell ── */
-  .card {
-    background: rgba(255,255,255,.72);
-    backdrop-filter: blur(18px);
-    border: 1.5px solid rgba(242,167,184,.35);
-    border-radius: 28px;
-    padding: 3rem 2.8rem 2.4rem;
-    box-shadow: 0 8px 40px rgba(201,123,138,.18), 0 2px 8px rgba(201,123,138,.1);
-    width: 100%;
-  }
+/* ══════════════ CARD ══════════════ */
+.card{
+  background:var(--white);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+  border:1.5px solid rgba(242,167,184,.4);
+  border-radius:28px;
+  padding:clamp(1.6rem,6vw,2.8rem) clamp(1.2rem,6vw,2.6rem) clamp(1.4rem,5vw,2.4rem);
+  box-shadow:var(--card-shadow);
+  width:100%;
+  position:relative;
+  overflow:hidden;
+}
+/* shimmer sweep */
+.card::after{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.5) 50%,transparent 70%);
+  transform:translateX(-100%);
+  animation:shimmer 4s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes shimmer{
+  0%  {transform:translateX(-100%)}
+  60%,100%{transform:translateX(160%)}
+}
 
-  /* ── Typography ── */
-  .script {
-    font-family: 'Petit Formal Script', cursive;
-    color: var(--deeprose);
-    line-height: 1.3;
-  }
-  .serif {
-    font-family: 'Cormorant Garamond', serif;
-  }
+/* ══════════════ TYPOGRAPHY ══════════════ */
+.script{font-family:'Petit Formal Script',cursive;color:var(--deep);line-height:1.35}
+.serif {font-family:'Cormorant Garamond',serif}
+.eyebrow{
+  font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--rose);margin-bottom:.6rem;font-weight:500;
+}
+.divider{
+  width:70px;height:1.5px;margin:.9rem auto;
+  background:linear-gradient(90deg,transparent,var(--rose),transparent);
+}
 
-  .eyebrow {
-    font-size: .78rem;
-    letter-spacing: .22em;
-    text-transform: uppercase;
-    color: var(--rose);
-    margin-bottom: .7rem;
-    font-weight: 400;
-  }
+/* ══════════════ SLIDE 1 ══════════════ */
+.s1-crown{font-size:clamp(2rem,8vw,3rem);animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 
-  /* ── Slide 1 ── */
-  .s1-title {
-    font-size: clamp(2rem, 7vw, 3.2rem);
-    margin-bottom: .5rem;
-  }
-  .nicknames {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: clamp(.9rem, 2.8vw, 1.15rem);
-    color: var(--soft);
-    line-height: 2;
-    margin: 1rem 0 1.5rem;
-  }
-  .nicknames span {
-    display: inline-block;
-    background: linear-gradient(135deg, var(--petal), var(--blush));
-    border-radius: 50px;
-    padding: .18em .9em;
-    margin: .25em .3em;
-    font-style: normal;
-    color: var(--deeprose);
-    font-size: 1em;
-    animation: nickPop 2.5s ease-in-out infinite alternate;
-  }
-  .nicknames span:nth-child(2n)   { animation-delay: .4s; }
-  .nicknames span:nth-child(3n)   { animation-delay: .8s; }
-  .nicknames span:nth-child(4n)   { animation-delay: 1.2s; }
-  @keyframes nickPop {
-    from { transform: scale(1);    box-shadow: none; }
-    to   { transform: scale(1.06); box-shadow: 0 4px 16px rgba(201,123,138,.25); }
-  }
-  .s1-sub {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1rem, 3vw, 1.25rem);
-    font-style: italic;
-    color: var(--soft);
-    margin-bottom: 2rem;
-  }
+.s1-title{font-size:clamp(1.9rem,7vw,3rem);margin:.3rem 0}
+.s1-sub{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:clamp(.95rem,3vw,1.15rem);color:var(--soft);margin-bottom:1rem;
+}
 
-  /* ── Image placeholder ── */
-  .img-frame {
-    width: 100%;
-    max-width: 340px;
-    aspect-ratio: 4/3;
-    border-radius: 18px;
-    border: 2px dashed var(--rose);
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    background: linear-gradient(135deg, var(--blush), var(--petal));
-    margin: 0 auto 1.6rem;
-    color: var(--deeprose);
-    font-size: .9rem;
-    gap: .5rem;
-    position: relative;
-    overflow: hidden;
-  }
-  .img-frame::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse at 50% 0%, rgba(255,255,255,.6) 0%, transparent 70%);
-  }
-  .img-icon { font-size: 2.5rem; }
-  .img-label { font-family: 'Cormorant Garamond', serif; font-style: italic; }
-  .img-hint  { font-size: .75rem; color: var(--soft); }
+.nicknames{margin:1rem 0 1.4rem;display:flex;flex-wrap:wrap;justify-content:center;gap:.45rem}
+.nicknames span{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(.82rem,2.5vw,1rem);
+  padding:.28em 1em;border-radius:50px;
+  background:linear-gradient(135deg,var(--petal),var(--blush));
+  color:var(--deep);
+  border:1px solid rgba(201,123,138,.25);
+  animation:nickFloat 2.8s ease-in-out infinite alternate;
+  will-change:transform;
+}
+.nicknames span:nth-child(1){animation-delay:0s}
+.nicknames span:nth-child(2){animation-delay:.25s}
+.nicknames span:nth-child(3){animation-delay:.5s}
+.nicknames span:nth-child(4){animation-delay:.75s}
+.nicknames span:nth-child(5){animation-delay:1s}
+.nicknames span:nth-child(6){animation-delay:1.25s}
+.nicknames span:nth-child(7){animation-delay:1.5s}
+.nicknames span:nth-child(8){animation-delay:1.75s}
+@keyframes nickFloat{
+  from{transform:translateY(0) scale(1);box-shadow:none}
+  to  {transform:translateY(-5px) scale(1.07);box-shadow:0 6px 18px rgba(201,123,138,.3)}
+}
 
-  /* ── Poetry ── */
-  .poem {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1rem, 3.2vw, 1.18rem);
-    font-style: italic;
-    line-height: 1.9;
-    color: var(--text);
-    margin-bottom: .8rem;
-  }
-  .caption {
-    font-size: .85rem;
-    letter-spacing: .1em;
-    color: var(--rose);
-    margin-bottom: 1.6rem;
-  }
+/* ══════════════ PHOTO FRAME ══════════════ */
+.photo-wrap{
+  width:100%;max-width:320px;
+  margin:0 auto 1.4rem;
+  position:relative;
+}
+/* decorative petals around frame */
+.photo-wrap::before,.photo-wrap::after{
+  content:'🌸';font-size:1.4rem;
+  position:absolute;top:-.6rem;
+  animation:petalSpin 5s linear infinite;
+}
+.photo-wrap::before{left:-.5rem}
+.photo-wrap::after{right:-.5rem;animation-direction:reverse}
+@keyframes petalSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 
-  /* ── Slide 5 finale ── */
-  .s5-heart { font-size: 3.5rem; animation: heartbeat 1.4s ease-in-out infinite; }
-  @keyframes heartbeat {
-    0%,100% { transform: scale(1); }
-    14%      { transform: scale(1.18); }
-    28%      { transform: scale(1); }
-    42%      { transform: scale(1.14); }
-  }
-  .s5-title {
-    font-size: clamp(1.6rem, 5vw, 2.4rem);
-    margin: .8rem 0 .4rem;
-  }
-  .s5-verse {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1rem, 3.2vw, 1.2rem);
-    font-style: italic;
-    line-height: 2;
-    color: var(--soft);
-    margin-bottom: 1rem;
-  }
-  .s5-promise {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.05rem, 3.5vw, 1.3rem);
-    line-height: 1.8;
-    color: var(--text);
-    background: linear-gradient(135deg, var(--petal), var(--blush));
-    border-radius: 16px;
-    padding: 1.2rem 1.5rem;
-    margin-bottom: 2rem;
-    border-left: 3px solid var(--rose);
-  }
+.photo-frame{
+  width:100%;aspect-ratio:4/3;
+  border-radius:20px;overflow:hidden;
+  border:3px solid var(--rose);
+  box-shadow:0 8px 32px rgba(201,123,138,.3),0 0 0 6px rgba(255,214,224,.4);
+  position:relative;background:linear-gradient(135deg,var(--blush),var(--petal));
+  animation:frameGlow 3s ease-in-out infinite alternate;
+}
+@keyframes frameGlow{
+  from{box-shadow:0 8px 32px rgba(201,123,138,.25),0 0 0 6px rgba(255,214,224,.3)}
+  to  {box-shadow:0 12px 44px rgba(201,123,138,.45),0 0 0 8px rgba(255,214,224,.55)}
+}
 
-  /* ── Next button ── */
-  .btn {
-    display: inline-flex; align-items: center; gap: .5rem;
-    background: linear-gradient(135deg, var(--rose), var(--deeprose));
-    color: #fff;
-    border: none;
-    padding: .85rem 2.4rem;
-    border-radius: 50px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 1rem;
-    font-weight: 400;
-    letter-spacing: .08em;
-    cursor: pointer;
-    animation: pulse 2s ease-in-out infinite;
-    box-shadow: 0 6px 24px rgba(201,123,138,.4);
-    transition: transform .15s, box-shadow .15s;
-  }
-  .btn:hover  { transform: scale(1.05); box-shadow: 0 8px 30px rgba(201,123,138,.55); }
-  .btn:active { transform: scale(.97); }
-  @keyframes pulse {
-    0%,100% { box-shadow: 0 6px 24px rgba(201,123,138,.35); }
-    50%      { box-shadow: 0 6px 36px rgba(201,123,138,.7); }
-  }
-  .btn-finale {
-    background: linear-gradient(135deg, var(--gold), #e8b86d);
-    animation: pulseGold 1.8s ease-in-out infinite;
-    box-shadow: 0 6px 24px rgba(212,167,106,.45);
-  }
-  @keyframes pulseGold {
-    0%,100% { box-shadow: 0 6px 24px rgba(212,167,106,.4); }
-    50%      { box-shadow: 0 8px 40px rgba(212,167,106,.75); }
-  }
+/* ── The actual <img> you'll put inside ── */
+.photo-frame img{
+  width:100%;height:100%;object-fit:cover;
+  border-radius:17px;display:block;
+}
 
-  /* ── Dot nav ── */
-  #dots {
-    position: fixed; bottom: 1.8rem; left: 50%; transform: translateX(-50%);
-    display: flex; gap: .55rem;
-    z-index: 10;
-  }
-  .dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--petal);
-    border: 1.5px solid var(--rose);
-    transition: background .3s, transform .3s;
-  }
-  .dot.active { background: var(--deeprose); transform: scale(1.35); }
+/* ── Placeholder shown when no image ── */
+.photo-placeholder{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:.4rem;color:var(--deep);
+  background:linear-gradient(135deg,var(--blush) 0%,var(--petal) 100%);
+}
+.photo-placeholder::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 0%,rgba(255,255,255,.55),transparent 65%);
+}
+.ph-icon{font-size:2.8rem;position:relative;animation:float 2.5s ease-in-out infinite}
+.ph-label{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.95rem;position:relative}
+.ph-hint{font-size:.72rem;color:var(--soft);position:relative;padding:0 1rem;text-align:center}
 
-  /* ── Confetti / hearts burst ── */
-  .burst-particle {
-    position: fixed;
-    pointer-events: none;
-    font-size: 1.4rem;
-    z-index: 999;
-    animation: burstFly var(--dur) cubic-bezier(.2,.8,.4,1) forwards;
-  }
-  @keyframes burstFly {
-    0%   { opacity: 1; transform: translate(0,0) rotate(0deg) scale(1); }
-    100% { opacity: 0; transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(.4); }
-  }
+/* ══════════════ POETRY ══════════════ */
+.poem{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:clamp(.98rem,3.2vw,1.15rem);
+  line-height:2;color:var(--text);margin-bottom:.6rem;
+}
+.caption{font-size:.8rem;letter-spacing:.1em;color:var(--rose);margin-bottom:1.5rem}
 
-  /* ── Decorative corner ── */
-  .corner-deco {
-    position: absolute;
-    font-size: 1.1rem;
-    opacity: .25;
-    line-height: 1;
-  }
-  .corner-deco.tl { top: 1rem; left: 1.1rem; }
-  .corner-deco.tr { top: 1rem; right: 1.1rem; }
-  .corner-deco.bl { bottom: 1rem; left: 1.1rem; }
-  .corner-deco.br { bottom: 1rem; right: 1.1rem; }
+/* ══════════════ SLIDE 5 ══════════════ */
+.s5-heart{font-size:clamp(2.8rem,10vw,4rem);animation:heartbeat 1.3s ease-in-out infinite}
+@keyframes heartbeat{
+  0%,100%{transform:scale(1)}
+  14%    {transform:scale(1.22)}
+  28%    {transform:scale(1)}
+  42%    {transform:scale(1.16)}
+}
+.s5-title{font-size:clamp(1.5rem,5vw,2.2rem);margin:.7rem 0 .3rem}
+.s5-verse{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:clamp(.98rem,3vw,1.15rem);line-height:2;
+  color:var(--soft);margin-bottom:1rem;
+}
+.s5-promise{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1rem,3.2vw,1.18rem);line-height:1.9;
+  color:var(--text);
+  background:linear-gradient(135deg,rgba(255,214,224,.6),rgba(252,228,236,.6));
+  border-radius:18px;padding:1.2rem 1.4rem;
+  margin-bottom:1.8rem;
+  border-left:3px solid var(--rose);
+  backdrop-filter:blur(8px);
+}
 
-  /* ── Divider ── */
-  .divider {
-    width: 60px; height: 1.5px;
-    background: linear-gradient(90deg, transparent, var(--rose), transparent);
-    margin: 1rem auto;
-  }
+/* ══════════════ BUTTON ══════════════ */
+.btn{
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:linear-gradient(135deg,var(--rose),var(--deep));
+  color:#fff;border:none;
+  padding:.9rem clamp(1.6rem,5vw,2.4rem);
+  border-radius:50px;cursor:pointer;
+  font-family:'Nunito',sans-serif;font-size:clamp(.9rem,3vw,1rem);
+  font-weight:500;letter-spacing:.06em;
+  box-shadow:0 6px 28px rgba(201,123,138,.45);
+  animation:btnPulse 2s ease-in-out infinite;
+  transition:transform .15s,box-shadow .15s;
+  position:relative;overflow:hidden;
+}
+.btn::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.2),transparent);
+  pointer-events:none;
+}
+.btn:hover {transform:scale(1.06) translateY(-2px);box-shadow:0 10px 36px rgba(201,123,138,.6)}
+.btn:active{transform:scale(.97)}
+@keyframes btnPulse{
+  0%,100%{box-shadow:0 6px 24px rgba(201,123,138,.35)}
+  50%    {box-shadow:0 8px 40px rgba(201,123,138,.7)}
+}
+.btn-gold{
+  background:linear-gradient(135deg,var(--gold),#e8b86d,var(--gold));
+  background-size:200% auto;
+  animation:goldShine 2.5s linear infinite,btnPulseGold 1.8s ease-in-out infinite;
+  box-shadow:0 6px 28px rgba(212,167,106,.5);
+}
+@keyframes goldShine{0%{background-position:0%}100%{background-position:200%}}
+@keyframes btnPulseGold{
+  0%,100%{box-shadow:0 6px 28px rgba(212,167,106,.4)}
+  50%    {box-shadow:0 10px 44px rgba(212,167,106,.8)}
+}
 
-  /* Responsive tweaks */
-  @media (max-width: 420px) {
-    .card { padding: 2rem 1.4rem 1.8rem; }
-    .s5-promise { padding: 1rem 1.1rem; }
-  }
+/* ══════════════ DOTS ══════════════ */
+#dots{
+  position:fixed;bottom:clamp(1rem,4vw,1.8rem);left:50%;transform:translateX(-50%);
+  display:flex;gap:.6rem;z-index:10;
+  background:rgba(255,255,255,.6);backdrop-filter:blur(10px);
+  padding:.5rem .9rem;border-radius:50px;
+  border:1px solid rgba(242,167,184,.3);
+  box-shadow:0 4px 16px rgba(201,123,138,.15);
+}
+.dot{
+  width:9px;height:9px;border-radius:50%;
+  background:var(--petal);border:1.5px solid var(--rose);
+  transition:all .35s cubic-bezier(.34,1.56,.64,1);cursor:pointer;
+}
+.dot.active{background:var(--deep);transform:scale(1.5);border-color:var(--deep)}
+
+/* ══════════════ CORNER DECO ══════════════ */
+.deco{position:absolute;opacity:.22;line-height:1;pointer-events:none;font-size:1.2rem}
+.deco.tl{top:.9rem;left:1rem}
+.deco.tr{top:.9rem;right:1rem}
+.deco.bl{bottom:.9rem;left:1rem}
+.deco.br{bottom:.9rem;right:1rem}
+
+/* ══════════════ BURST PARTICLES ══════════════ */
+.burst{
+  position:fixed;pointer-events:none;font-size:1.5rem;z-index:999;
+  animation:burstFly var(--d) cubic-bezier(.2,.8,.3,1) forwards;
+}
+@keyframes burstFly{
+  0%  {opacity:1;transform:translate(0,0) rotate(0deg) scale(1)}
+  100%{opacity:0;transform:translate(var(--tx),var(--ty)) rotate(var(--r)) scale(.3)}
+}
+
+/* ══════════════ PHOTO HOW-TO BANNER ══════════════ */
+.photo-guide{
+  margin-top:1.5rem;
+  background:linear-gradient(135deg,rgba(255,214,224,.5),rgba(252,228,236,.5));
+  border:1.5px dashed var(--rose);border-radius:16px;
+  padding:1rem 1.2rem;font-size:.82rem;line-height:1.7;
+  color:var(--soft);text-align:left;
+  backdrop-filter:blur(6px);
+}
+.photo-guide strong{color:var(--deep);display:block;margin-bottom:.3rem;font-size:.88rem}
+.photo-guide code{
+  background:rgba(201,123,138,.12);border-radius:5px;
+  padding:.1em .45em;font-size:.78rem;color:var(--text);
+  font-family:monospace;word-break:break-all;
+}
+.guide-step{display:flex;gap:.5rem;align-items:flex-start;margin:.35rem 0}
+.step-num{
+  background:var(--deep);color:#fff;border-radius:50%;
+  width:1.4rem;height:1.4rem;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.72rem;font-weight:700;margin-top:.05rem;
+}
+
+/* ══════════════ SLIDE PROGRESS BAR ══════════════ */
+#progress-bar{
+  position:fixed;top:0;left:0;height:3px;
+  background:linear-gradient(90deg,var(--rose),var(--deep),var(--gold));
+  transition:width .5s cubic-bezier(.4,0,.2,1);
+  z-index:20;
+  box-shadow:0 0 8px rgba(201,123,138,.5);
+}
+
+/* ══════════════ RESPONSIVE ══════════════ */
+@media(max-width:380px){
+  .card{padding:1.4rem 1rem 1.4rem}
+  .poem{font-size:.93rem}
+  .nicknames span{font-size:.78rem;padding:.22em .75em}
+  .s5-promise{padding:.9rem 1rem;font-size:.95rem}
+}
+@media(max-height:640px){
+  #stage{padding-top:1rem;padding-bottom:4rem}
+  .s5-heart{font-size:2rem}
+  .divider{margin:.5rem auto}
+}
 </style>
 </head>
 <body>
 
+<!-- Animated mesh background -->
+<div class="mesh"></div>
+
+<!-- Petal canvas -->
 <canvas id="petal-canvas"></canvas>
 
-<!-- DOT NAVIGATION -->
+<!-- Sparkles injected by JS -->
+
+<!-- Progress bar -->
+<div id="progress-bar" style="width:20%"></div>
+
+<!-- Dot nav -->
 <div id="dots">
   <div class="dot active"></div>
   <div class="dot"></div>
@@ -303,256 +380,267 @@
   <div class="dot"></div>
 </div>
 
-<!-- STAGE -->
+<!-- ═══════════ STAGE ═══════════ -->
 <div id="stage">
 
-  <!-- ═══════════════ SLIDE 1 ═══════════════ -->
-  <div class="slide active" id="slide-1">
-    <div class="card" style="position:relative">
-      <span class="corner-deco tl">🌸</span>
-      <span class="corner-deco tr">✨</span>
-      <span class="corner-deco bl">✨</span>
-      <span class="corner-deco br">🌸</span>
+<!-- ████ SLIDE 1 ████ -->
+<div class="slide active" id="slide-1">
+  <div class="card">
+    <span class="deco tl">🌸</span><span class="deco tr">✨</span>
+    <span class="deco bl">✨</span><span class="deco br">🌸</span>
 
-      <p class="eyebrow">A little something just for you</p>
-      <h1 class="script s1-title">Happy Birthday,</h1>
-      <h1 class="script s1-title" style="font-size:clamp(1.6rem,6vw,2.6rem); margin-bottom:.3rem;">My Nushaa 💕</h1>
-      <div class="divider"></div>
+    <div class="s1-crown">👑</div>
+    <p class="eyebrow">A little something just for you</p>
+    <h1 class="script s1-title">Happy Birthday,</h1>
+    <h1 class="script" style="font-size:clamp(1.6rem,6vw,2.5rem);color:var(--deep);margin-bottom:.5rem">My Nushaa 💕</h1>
+    <div class="divider"></div>
 
-      <p class="serif" style="font-size:.95rem; color:var(--soft); margin-bottom:.5rem;">You are known by many names —<br/>and every single one is said with love.</p>
+    <p class="serif" style="font-size:clamp(.88rem,2.8vw,1rem);color:var(--soft);margin-bottom:.8rem;font-style:italic">
+      You are known by many names —<br>and every single one is said with love.
+    </p>
 
-      <div class="nicknames">
-        <span>Anusha</span>
-        <span>Nushaa</span>
-        <span>Bagoo</span>
-        <span>Moto</span>
-        <span>Mhotram</span>
-        <span>Shazadee</span>
-        <span>Mara Bacha</span>
-        <span>Mari Jan</span>
-      </div>
-
-      <p class="s1-sub">"Each name a universe;<br/>each one is home."</p>
-
-      <button class="btn" onclick="nextSlide()">Begin our journey &nbsp;🌷</button>
+    <div class="nicknames">
+      <span>Anusha</span><span>Nushaa</span><span>Bagoo</span>
+      <span>Moto</span><span>Mhotram</span><span>Shazadee</span>
+      <span>Mara Bacha</span><span>Mari Jan</span>
     </div>
+
+    <p class="s1-sub serif">"Each name a universe — each one is home."</p>
+
+    <button class="btn" onclick="nextSlide()">Begin our journey &nbsp;🌷</button>
   </div>
+</div>
 
-  <!-- ═══════════════ SLIDE 2 ═══════════════ -->
-  <div class="slide" id="slide-2">
-    <div class="card">
-      <p class="eyebrow">A memory I hold close ✦</p>
-      <h2 class="script" style="font-size:clamp(1.5rem,5vw,2.2rem); margin-bottom:1rem;">The Way You Smile</h2>
+<!-- ████ SLIDE 2 ████ -->
+<div class="slide" id="slide-2">
+  <div class="card">
+    <p class="eyebrow">A memory I hold close ✦</p>
+    <h2 class="script" style="font-size:clamp(1.4rem,5vw,2.1rem);margin-bottom:1rem">The Way You Smile</h2>
 
-      <div class="img-frame">
-        <!-- <div class="img-icon">📸</div>
-        <div class="img-label">Place your favourite photo here</div>
-        <div class="img-hint">Tip: replace this &lt;div&gt; with an &lt;img&gt; tag</div> -->
-        <img src="https://drive.google.com/file/d/1h8qCv_wERSsbMaj2YeV5rYXJ9TXQOGU3/view">
+    <!-- ══ PHOTO 1 — replace the div.photo-placeholder with your <img> ══ -->
+    <div class="photo-wrap">
+      <div class="photo-frame">
+        <!-- ▼▼▼ DELETE the div below and add your photo like this: ▼▼▼ -->
+       <img src="3.jpg" alt="Our memory">
+
       </div>
-
-      <p class="poem">
-        "In every room you light a quiet fire,<br/>
-        your laughter threads through silence like a prayer —<br/>
-        I memorised the curve of your desire<br/>
-        the way the morning memorises air."
-      </p>
-      <p class="caption">— written for you, and only you</p>
-
-      <button class="btn" onclick="nextSlide()">Next memory &nbsp;💌</button>
     </div>
+
+    <p class="poem">
+      "In every room you light a quiet fire,<br>
+      your laughter threads through silence like a prayer —<br>
+      I memorised the curve of your desire<br>
+      the way the morning memorises air."
+    </p>
+    <p class="caption">— written for you, and only you</p>
+
+    <button class="btn" onclick="nextSlide()">Next memory &nbsp;💌</button>
   </div>
+</div>
 
-  <!-- ═══════════════ SLIDE 3 ═══════════════ -->
-  <div class="slide" id="slide-3">
-    <div class="card">
-      <p class="eyebrow">A moment frozen in time ✦</p>
-      <h2 class="script" style="font-size:clamp(1.5rem,5vw,2.2rem); margin-bottom:1rem;">You & Your Silly Self</h2>
+<!-- ████ SLIDE 3 ████ -->
+<div class="slide" id="slide-3">
+  <div class="card">
+    <p class="eyebrow">A moment frozen in time ✦</p>
+    <h2 class="script" style="font-size:clamp(1.4rem,5vw,2.1rem);margin-bottom:1rem">You &amp; Your Silly Self</h2>
 
-      <div class="img-frame">
-        <div class="img-icon">📸</div>
-        <div class="img-label">Place your favourite photo here</div>
-        <div class="img-hint">Tip: replace this &lt;div&gt; with an &lt;img&gt; tag</div>
+    <!-- ══ PHOTO 2 ══ -->
+    <div class="photo-wrap">
+      <div class="photo-frame">
+        <!-- <img src="photo2.jpg" alt="Silly moment"> -->
+             <img src="2.jpg" alt="Our memory">
+
       </div>
-
-      <p class="poem">
-        "You fold the world a little softer<br/>
-        everywhere you choose to stand —<br/>
-        I never knew that ever-after<br/>
-        could fit inside a single hand."
-      </p>
-      <p class="caption">— for the one who made ordinary days extraordinary</p>
-
-      <button class="btn" onclick="nextSlide()">Keep going &nbsp;🕊️</button>
     </div>
+
+    <p class="poem">
+      "You fold the world a little softer<br>
+      everywhere you choose to stand —<br>
+      I never knew that ever-after<br>
+      could fit inside a single hand."
+    </p>
+    <p class="caption">— for the one who made ordinary days extraordinary</p>
+
+    <button class="btn" onclick="nextSlide()">Keep going &nbsp;🕊️</button>
   </div>
+</div>
 
-  <!-- ═══════════════ SLIDE 4 ═══════════════ -->
-  <div class="slide" id="slide-4">
-    <div class="card">
-      <p class="eyebrow">A portrait of us ✦</p>
-      <h2 class="script" style="font-size:clamp(1.5rem,5vw,2.2rem); margin-bottom:1rem;">My Shazadee</h2>
+<!-- ████ SLIDE 4 ████ -->
+<div class="slide" id="slide-4">
+  <div class="card">
+    <p class="eyebrow">A portrait of us ✦</p>
+    <h2 class="script" style="font-size:clamp(1.4rem,5vw,2.1rem);margin-bottom:1rem">My Shazadee</h2>
 
-      <div class="img-frame">
-        <div class="img-icon">📸</div>
-        <div class="img-label">Place your favourite photo here</div>
-        <div class="img-hint">Tip: replace this &lt;div&gt; with an &lt;img&gt; tag</div>
+    <!-- ══ PHOTO 3 ══ -->
+    <div class="photo-wrap">
+      <div class="photo-frame">
+        <!-- <img src="photo3.jpg" alt="Us together"> -->
+               <img src="1.jpg" alt="Our memory">
+
       </div>
-
-      <p class="poem">
-        "I would choose the noise and chaos<br/>
-        of a life lived next to you,<br/>
-        over every quiet kingdom<br/>
-        this wide, empty world walks through."
-      </p>
-      <p class="caption">— Mara Bacha, you are my favourite chaos</p>
-
-      <button class="btn" onclick="nextSlide()">One last surprise &nbsp;🌙</button>
     </div>
+
+    <p class="poem">
+      "I would choose the noise and chaos<br>
+      of a life lived next to you,<br>
+      over every quiet kingdom<br>
+      this wide, empty world walks through."
+    </p>
+    <p class="caption">— Mara Bacha, you are my favourite chaos 💫</p>
+
+    <button class="btn" onclick="nextSlide()">One last surprise &nbsp;🌙</button>
   </div>
+</div>
 
-  <!-- ═══════════════ SLIDE 5 ═══════════════ -->
-  <div class="slide" id="slide-5">
-    <div class="card" style="position:relative">
-      <span class="corner-deco tl">💫</span>
-      <span class="corner-deco tr">💫</span>
-      <span class="corner-deco bl">💫</span>
-      <span class="corner-deco br">💫</span>
+<!-- ████ SLIDE 5 ████ -->
+<div class="slide" id="slide-5">
+  <div class="card">
+    <span class="deco tl">💫</span><span class="deco tr">💫</span>
+    <span class="deco bl">💫</span><span class="deco br">💫</span>
 
-      <div class="s5-heart">💖</div>
-      <p class="eyebrow" style="margin-top:.5rem;">Always &amp; forever ✦</p>
-      <h2 class="script s5-title">Until Every Birthday,<br/>and Every Day Between</h2>
-      <div class="divider"></div>
+    <div class="s5-heart">💖</div>
+    <p class="eyebrow" style="margin-top:.5rem">Always &amp; forever ✦</p>
+    <h2 class="script s5-title">Until Every Birthday,<br>and Every Day Between</h2>
+    <div class="divider"></div>
 
-      <p class="s5-verse">
-        "You are the chapter I never want to end,<br/>
-        the name I'll still be writing when I'm old —<br/>
-        every birthday I unwrap a better world<br/>
-        simply because it holds you."
-      </p>
+    <p class="s5-verse">
+      "You are the chapter I never want to end,<br>
+      the name I'll still be writing when I'm old —<br>
+      every birthday I unwrap a better world<br>
+      simply because it holds you."
+    </p>
 
-      <div class="s5-promise">
-        <strong style="font-style:normal; color:var(--deeprose);">InshaAllah</strong> —<br/>
-        we will be together for the next birthday<br/>
-        and every one after that. 🤲<br/>
-        <br/>
-        <span style="font-size:.95em; color:var(--soft);">Every sunrise will know your name.<br/>
-        Every year will begin with your smile.</span>
-      </div>
-
-      <button class="btn btn-finale" onclick="celebrate()">
-        Celebrate! &nbsp;🎉
-      </button>
+    <div class="s5-promise">
+      <strong style="color:var(--deep);font-style:normal">InshaAllah</strong> —<br>
+      we will be together for the next birthday<br>
+      and every one after that. 🤲<br><br>
+      <span style="font-size:.92em;color:var(--soft)">
+        Every sunrise will know your name.<br>
+        Every year will begin with your smile.
+      </span>
     </div>
+
+    <button class="btn btn-gold" onclick="celebrate()">
+      Celebrate! &nbsp;🎉
+    </button>
   </div>
+</div>
 
 </div><!-- end #stage -->
 
 <script>
-/* ── State ── */
+/* ═══════════════════════════════════
+   SLIDE ENGINE
+═══════════════════════════════════ */
 let current = 1;
-const total  = 5;
+const TOTAL  = 5;
+const PROGRESS_STEPS = [20,40,60,80,100];
 
-function nextSlide() {
-  if (current >= total) return;
-  document.getElementById('slide-' + current).classList.remove('active');
+function nextSlide(){
+  if(current >= TOTAL) return;
+  const old = document.getElementById('slide-'+current);
+  old.classList.add('out');
+  setTimeout(()=>{ old.classList.remove('active','out'); },380);
+
   current++;
-  const next = document.getElementById('slide-' + current);
-  next.classList.add('active');
-  updateDots();
+  setTimeout(()=>{
+    const next = document.getElementById('slide-'+current);
+    next.classList.add('active');
+    updateDots();
+    updateProgress();
+  },350);
 }
 
-function updateDots() {
-  document.querySelectorAll('.dot').forEach((d, i) => {
-    d.classList.toggle('active', i === current - 1);
+function updateDots(){
+  document.querySelectorAll('.dot').forEach((d,i)=>{
+    d.classList.toggle('active', i===current-1);
   });
 }
+function updateProgress(){
+  document.getElementById('progress-bar').style.width = PROGRESS_STEPS[current-1]+'%';
+}
 
-/* ── Floating petal canvas ── */
+/* ═══════════════════════════════════
+   FLOATING PETALS
+═══════════════════════════════════ */
 const canvas = document.getElementById('petal-canvas');
 const ctx    = canvas.getContext('2d');
-let W, H, petals = [];
+let W,H,petals=[];
+const EMOJIS = ['🌸','🌷','✿','❀','🌺','💮'];
+const COUNT  = Math.min(window.innerWidth<500 ? 20 : 32, 32);
 
-const PETAL_EMOJIS = ['🌸','🌷','✿','❀','🌺'];
-const PETAL_COUNT  = window.innerWidth < 500 ? 18 : 28;
-
-function resize() {
+function resize(){
   W = canvas.width  = window.innerWidth;
   H = canvas.height = window.innerHeight;
 }
-window.addEventListener('resize', resize);
-resize();
+window.addEventListener('resize', resize); resize();
 
-function randomPetal() {
-  return {
-    emoji: PETAL_EMOJIS[Math.floor(Math.random() * PETAL_EMOJIS.length)],
-    x: Math.random() * W,
-    y: -40 - Math.random() * 200,
-    size: 14 + Math.random() * 16,
-    speed: .4 + Math.random() * .7,
-    drift: (Math.random() - .5) * .5,
-    spin: (Math.random() - .5) * .03,
-    angle: Math.random() * Math.PI * 2,
-    opacity: .35 + Math.random() * .4
+function rp(){
+  return{
+    e: EMOJIS[Math.floor(Math.random()*EMOJIS.length)],
+    x: Math.random()*W, y:-40-Math.random()*250,
+    s: 13+Math.random()*15,
+    vy:.35+Math.random()*.65,
+    vx:(Math.random()-.5)*.45,
+    spin:(Math.random()-.5)*.025,
+    a: Math.random()*Math.PI*2,
+    o:.3+Math.random()*.4
   };
 }
+for(let i=0;i<COUNT;i++){const p=rp();p.y=Math.random()*H;petals.push(p);}
 
-for (let i = 0; i < PETAL_COUNT; i++) {
-  const p = randomPetal();
-  p.y = Math.random() * H; // scatter on first load
-  petals.push(p);
-}
-
-function animatePetals() {
-  ctx.clearRect(0, 0, W, H);
-  for (const p of petals) {
-    ctx.save();
-    ctx.globalAlpha = p.opacity;
-    ctx.font = `${p.size}px serif`;
-    ctx.translate(p.x, p.y);
-    ctx.rotate(p.angle);
-    ctx.fillText(p.emoji, -p.size/2, p.size/2);
-    ctx.restore();
-    p.y     += p.speed;
-    p.x     += p.drift;
-    p.angle += p.spin;
-    if (p.y > H + 40) Object.assign(p, randomPetal());
+(function animP(){
+  ctx.clearRect(0,0,W,H);
+  for(const p of petals){
+    ctx.save();ctx.globalAlpha=p.o;
+    ctx.font=`${p.s}px serif`;
+    ctx.translate(p.x,p.y);ctx.rotate(p.a);
+    ctx.fillText(p.e,-p.s/2,p.s/2);ctx.restore();
+    p.y+=p.vy; p.x+=p.vx; p.a+=p.spin;
+    if(p.y>H+40) Object.assign(p,rp());
   }
-  requestAnimationFrame(animatePetals);
+  requestAnimationFrame(animP);
+})();
+
+/* ═══════════════════════════════════
+   SPARKLES
+═══════════════════════════════════ */
+const SPARK_ITEMS=['✨','💫','⭐','🌟'];
+function addSparkles(){
+  for(let i=0;i<14;i++){
+    const el=document.createElement('div');
+    el.className='sparkle';
+    el.textContent=SPARK_ITEMS[Math.floor(Math.random()*SPARK_ITEMS.length)];
+    el.style.left=(5+Math.random()*90)+'%';
+    el.style.top=(5+Math.random()*90)+'%';
+    el.style.setProperty('--sd',(2.5+Math.random()*4)+'s');
+    el.style.setProperty('--ss',(Math.random()*5)+'s');
+    document.body.appendChild(el);
+  }
 }
-animatePetals();
+addSparkles();
 
-/* ── Celebration burst ── */
-const BURST_ITEMS = ['💕','🎊','🌸','✨','💖','🎉','🌷','💫','🎀','❤️'];
-
-function celebrate() {
-  const cx = window.innerWidth  / 2;
-  const cy = window.innerHeight / 2;
-  const count = 60;
-
-  for (let i = 0; i < count; i++) {
-    setTimeout(() => {
-      const el    = document.createElement('div');
-      el.classList.add('burst-particle');
-      el.textContent = BURST_ITEMS[Math.floor(Math.random() * BURST_ITEMS.length)];
-
-      const angle  = Math.random() * Math.PI * 2;
-      const dist   = 120 + Math.random() * 260;
-      const tx     = Math.cos(angle) * dist;
-      const ty     = Math.sin(angle) * dist - 80;
-      const rot    = (Math.random() - .5) * 540 + 'deg';
-      const dur    = (.9 + Math.random() * .8) + 's';
-
-      el.style.setProperty('--tx',  tx  + 'px');
-      el.style.setProperty('--ty',  ty  + 'px');
-      el.style.setProperty('--rot', rot);
-      el.style.setProperty('--dur', dur);
-      el.style.left = cx + 'px';
-      el.style.top  = cy + 'px';
-
+/* ═══════════════════════════════════
+   CELEBRATION BURST
+═══════════════════════════════════ */
+const BURST=['💕','🎊','🌸','✨','💖','🎉','🌷','💫','🎀','❤️','🥳','💝'];
+function celebrate(){
+  const cx=window.innerWidth/2, cy=window.innerHeight/2;
+  for(let i=0;i<80;i++){
+    setTimeout(()=>{
+      const el=document.createElement('div');
+      el.className='burst';
+      el.textContent=BURST[Math.floor(Math.random()*BURST.length)];
+      const ang=Math.random()*Math.PI*2;
+      const dist=100+Math.random()*300;
+      el.style.setProperty('--tx',Math.cos(ang)*dist+'px');
+      el.style.setProperty('--ty',Math.sin(ang)*dist-60+'px');
+      el.style.setProperty('--r',(Math.random()-.5)*600+'deg');
+      el.style.setProperty('--d',(.8+Math.random()*.9)+'s');
+      el.style.left=cx+'px'; el.style.top=cy+'px';
       document.body.appendChild(el);
-      el.addEventListener('animationend', () => el.remove());
-    }, i * 28);
+      el.addEventListener('animationend',()=>el.remove());
+    }, i*22);
   }
 }
 </script>
