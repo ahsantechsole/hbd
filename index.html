@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Happy Birthday, Nushaa 💕</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Petit+Formal+Script&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --rose:       #f2a7b8;
+    --blush:      #fce4ec;
+    --cream:      #fff8f5;
+    --petal:      #ffd6e0;
+    --gold:       #d4a76a;
+    --deeprose:   #c97b8a;
+    --text:       #5a3042;
+    --soft:       #9e6070;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    overflow: hidden;
+  }
+
+  /* ── Floating petals background ── */
+  #petal-canvas {
+    position: fixed; inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Slide wrapper ── */
+  #stage {
+    position: relative;
+    z-index: 1;
+    width: 100%; height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 1.5rem;
+  }
+
+  .slide {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+    animation: fadeSlideUp .9s cubic-bezier(.22,.68,0,1.2) both;
+  }
+  .slide.active { display: flex; }
+
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(40px) scale(.97); }
+    to   { opacity: 1; transform: translateY(0)  scale(1); }
+  }
+
+  /* ── Card shell ── */
+  .card {
+    background: rgba(255,255,255,.72);
+    backdrop-filter: blur(18px);
+    border: 1.5px solid rgba(242,167,184,.35);
+    border-radius: 28px;
+    padding: 3rem 2.8rem 2.4rem;
+    box-shadow: 0 8px 40px rgba(201,123,138,.18), 0 2px 8px rgba(201,123,138,.1);
+    width: 100%;
+  }
+
+  /* ── Typography ── */
+  .script {
+    font-family: 'Petit Formal Script', cursive;
+    color: var(--deeprose);
+    line-height: 1.3;
+  }
+  .serif {
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  .eyebrow {
+    font-size: .78rem;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: .7rem;
+    font-weight: 400;
+  }
+
+  /* ── Slide 1 ── */
+  .s1-title {
+    font-size: clamp(2rem, 7vw, 3.2rem);
+    margin-bottom: .5rem;
+  }
+  .nicknames {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(.9rem, 2.8vw, 1.15rem);
+    color: var(--soft);
+    line-height: 2;
+    margin: 1rem 0 1.5rem;
+  }
+  .nicknames span {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--petal), var(--blush));
+    border-radius: 50px;
+    padding: .18em .9em;
+    margin: .25em .3em;
+    font-style: normal;
+    color: var(--deeprose);
+    font-size: 1em;
+    animation: nickPop 2.5s ease-in-out infinite alternate;
+  }
+  .nicknames span:nth-child(2n)   { animation-delay: .4s; }
+  .nicknames span:nth-child(3n)   { animation-delay: .8s; }
+  .nicknames span:nth-child(4n)   { animation-delay: 1.2s; }
+  @keyframes nickPop {
+    from { transform: scale(1);    box-shadow: none; }
+    to   { transform: scale(1.06); box-shadow: 0 4px 16px rgba(201,123,138,.25); }
+  }
+  .s1-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 3vw, 1.25rem);
+    font-style: italic;
+    color: var(--soft);
+    margin-bottom: 2rem;
+  }
+
+  /* ── Image placeholder ── */
+  .img-frame {
+    width: 100%;
+    max-width: 340px;
+    aspect-ratio: 4/3;
+    border-radius: 18px;
+    border: 2px dashed var(--rose);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    background: linear-gradient(135deg, var(--blush), var(--petal));
+    margin: 0 auto 1.6rem;
+    color: var(--deeprose);
+    font-size: .9rem;
+    gap: .5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .img-frame::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(255,255,255,.6) 0%, transparent 70%);
+  }
+  .img-icon { font-size: 2.5rem; }
+  .img-label { font-family: 'Cormorant Garamond', serif; font-style: italic; }
+  .img-hint  { font-size: .75rem; color: var(--soft); }
+
+  /* ── Poetry ── */
+  .poem {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 3.2vw, 1.18rem);
+    font-style: italic;
+    line-height: 1.9;
+    color: var(--text);
+    margin-bottom: .8rem;
+  }
+  .caption {
+    font-size: .85rem;
+    letter-spacing: .1em;
+    color: var(--rose);
+    margin-bottom: 1.6rem;
+  }
+
+  /* ── Slide 5 finale ── */
+  .s5-heart { font-size: 3.5rem; animation: heartbeat 1.4s ease-in-out infinite; }
+  @keyframes heartbeat {
+    0%,100% { transform: scale(1); }
+    14%      { transform: scale(1.18); }
+    28%      { transform: scale(1); }
+    42%      { transform: scale(1.14); }
+  }
+  .s5-title {
+    font-size: clamp(1.6rem, 5vw, 2.4rem);
+    margin: .8rem 0 .4rem;
+  }
+  .s5-verse {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1rem, 3.2vw, 1.2rem);
+    font-style: italic;
+    line-height: 2;
+    color: var(--soft);
+    margin-bottom: 1rem;
+  }
+  .s5-promise {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.05rem, 3.5vw, 1.3rem);
+    line-height: 1.8;
+    color: var(--text);
+    background: linear-gradient(135deg, var(--petal), var(--blush));
+    border-radius: 16px;
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 2rem;
+    border-left: 3px solid var(--rose);
+  }
+
+  /* ── Next button ── */
+  .btn {
+    display: inline-flex; align-items: center; gap: .5rem;
+    background: linear-gradient(135deg, var(--rose), var(--deeprose));
+    color: #fff;
+    border: none;
+    padding: .85rem 2.4rem;
+    border-radius: 50px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: .08em;
+    cursor: pointer;
+    animation: pulse 2s ease-in-out infinite;
+    box-shadow: 0 6px 24px rgba(201,123,138,.4);
+    transition: transform .15s, box-shadow .15s;
+  }
+  .btn:hover  { transform: scale(1.05); box-shadow: 0 8px 30px rgba(201,123,138,.55); }
+  .btn:active { transform: scale(.97); }
+  @keyframes pulse {
+    0%,100% { box-shadow: 0 6px 24px rgba(201,123,138,.35); }
+    50%      { box-shadow: 0 6px 36px rgba(201,123,138,.7); }
+  }
+  .btn-finale {
+    background: linear-gradient(135deg, var(--gold), #e8b86d);
+    animation: pulseGold 1.8s ease-in-out infinite;
+    box-shadow: 0 6px 24px rgba(212,167,106,.45);
+  }
+  @keyframes pulseGold {
+    0%,100% { box-shadow: 0 6px 24px rgba(212,167,106,.4); }
+    50%      { box-shadow: 0 8px 40px rgba(212,167,106,.75); }
+  }
+
+  /* ── Dot nav ── */
+  #dots {
+    position: fixed; bottom: 1.8rem; left: 50%; transform: translateX(-50%);
+    display: flex; gap: .55rem;
+    z-index: 10;
+  }
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--petal);
+    border: 1.5px solid var(--rose);
+    transition: background .3s, transform .3s;
+  }
+  .dot.active { background: var(--deeprose); transform: scale(1.35); }
+
+  /* ── Confetti / hearts burst ── */
+  .burst-particle {
+    position: fixed;
+    pointer-events: none;
+    font-size: 1.4rem;
+    z-index: 999;
+    animation: burstFly var(--dur) cubic-bezier(.2,.8,.4,1) forwards;
+  }
+  @keyframes burstFly {
+    0%   { opacity: 1; transform: translate(0,0) rotate(0deg) scale(1); }
+    100% { opacity: 0; transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(.4); }
+  }
+
+  /* ── Decorative corner ── */
+  .corner-deco {
+    position: absolute;
+    font-size: 1.1rem;
+    opacity: .25;
+    line-height: 1;
+  }
+  .corner-deco.tl { top: 1rem; left: 1.1rem; }
+  .corner-deco.tr { top: 1rem; right: 1.1rem; }
+  .corner-deco.bl { bottom: 1rem; left: 1.1rem; }
+  .corner-deco.br { bottom: 1rem; right: 1.1rem; }
+
+  /* ── Divider ── */
+  .divider {
+    width: 60px; height: 1.5px;
+    background: linear-gradient(90deg, transparent, var(--rose), transparent);
+    margin: 1rem auto;
+  }
+
+  /* Responsive tweaks */
+  @media (max-width: 420px) {
+    .card { padding: 2rem 1.4rem 1.8rem; }
+    .s5-promise { padding: 1rem 1.1rem; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="petal-canvas"></canvas>
+
+<!-- DOT NAVIGATION -->
+<div id="dots">
+  <div class="dot active"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+</div>
+
+<!-- STAGE -->
+<div id="stage">
+
+  <!-- ═══════════════ SLIDE 1 ═══════════════ -->
+  <div class="slide active" id="slide-1">
+    <div class="card" style="position:relative">
+      <span class="corner-deco tl">🌸</span>
+      <span class="corner-deco tr">✨</span>
+      <span class="corner-deco bl">✨</span>
+      <span class="corner-deco br">🌸</span>
+
+      <p class="eyebrow">A little something just for you</p>
+      <h1 class="script s1-title">Happy Birthday,</h1>
+      <h1 class="script s1-title" style="font-size:clamp(1.6rem,6vw,2.6rem); margin-bottom:.3rem;">My Nushaa 💕</h1>
+      <div class="divider"></div>
+
+      <p class="serif" style="font-size:.95rem; color:var(--soft); margin-bottom:.5rem;">You are known by many names —<br/>and every single one is said with love.</p>
+
+      <div class="nicknames">
+        <span>Anusha</span>
+        <span>Nushaa</span>
+        <span>Bagoo</span>
+        <span>Moto</span>
+        <span>Mhotram</span>
+        <span>Shazadee</span>
+        <span>Mara Bacha</span>
+        <span>Mari Jan</span>
+      </div>
+
+      <p class="s1-sub">"Each name a universe;<br/>each one is home."</p>
+
+      <button class="btn" onclick="nextSlide()">Begin our journey &nbsp;🌷</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════ SLIDE 2 ═══════════════ -->
+  <div class="slide" id="slide-2">
+    <div class="card">
+      <p class="eyebrow">A memory I hold close ✦</p>
+      <h2 class="script" style="font-size:clamp(1.5rem,5vw,2.2rem); margin-bottom:1rem;">The Way You Smile</h2>
+
+      <div class="img-frame">
+        <!-- <div class="img-icon">📸</div>
+        <div class="img-label">Place your favourite photo here</div>
+        <div class="img-hint">Tip: replace this &lt;div&gt; with an &lt;img&gt; tag</div> -->
+        <img src="https://drive.google.com/file/d/1h8qCv_wERSsbMaj2YeV5rYXJ9TXQOGU3/view">
+      </div>
+
+      <p class="poem">
+        "In every room you light a quiet fire,<br/>
+        your laughter threads through silence like a prayer —<br/>
+        I memorised the curve of your desire<br/>
+        the way the morning memorises air."
+      </p>
+      <p class="caption">— written for you, and only you</p>
+
+      <button class="btn" onclick="nextSlide()">Next memory &nbsp;💌</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════ SLIDE 3 ═══════════════ -->
+  <div class="slide" id="slide-3">
+    <div class="card">
+      <p class="eyebrow">A moment frozen in time ✦</p>
+      <h2 class="script" style="font-size:clamp(1.5rem,5vw,2.2rem); margin-bottom:1rem;">You & Your Silly Self</h2>
+
+      <div class="img-frame">
+        <div class="img-icon">📸</div>
+        <div class="img-label">Place your favourite photo here</div>
+        <div class="img-hint">Tip: replace this &lt;div&gt; with an &lt;img&gt; tag</div>
+      </div>
+
+      <p class="poem">
+        "You fold the world a little softer<br/>
+        everywhere you choose to stand —<br/>
+        I never knew that ever-after<br/>
+        could fit inside a single hand."
+      </p>
+      <p class="caption">— for the one who made ordinary days extraordinary</p>
+
+      <button class="btn" onclick="nextSlide()">Keep going &nbsp;🕊️</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════ SLIDE 4 ═══════════════ -->
+  <div class="slide" id="slide-4">
+    <div class="card">
+      <p class="eyebrow">A portrait of us ✦</p>
+      <h2 class="script" style="font-size:clamp(1.5rem,5vw,2.2rem); margin-bottom:1rem;">My Shazadee</h2>
+
+      <div class="img-frame">
+        <div class="img-icon">📸</div>
+        <div class="img-label">Place your favourite photo here</div>
+        <div class="img-hint">Tip: replace this &lt;div&gt; with an &lt;img&gt; tag</div>
+      </div>
+
+      <p class="poem">
+        "I would choose the noise and chaos<br/>
+        of a life lived next to you,<br/>
+        over every quiet kingdom<br/>
+        this wide, empty world walks through."
+      </p>
+      <p class="caption">— Mara Bacha, you are my favourite chaos</p>
+
+      <button class="btn" onclick="nextSlide()">One last surprise &nbsp;🌙</button>
+    </div>
+  </div>
+
+  <!-- ═══════════════ SLIDE 5 ═══════════════ -->
+  <div class="slide" id="slide-5">
+    <div class="card" style="position:relative">
+      <span class="corner-deco tl">💫</span>
+      <span class="corner-deco tr">💫</span>
+      <span class="corner-deco bl">💫</span>
+      <span class="corner-deco br">💫</span>
+
+      <div class="s5-heart">💖</div>
+      <p class="eyebrow" style="margin-top:.5rem;">Always &amp; forever ✦</p>
+      <h2 class="script s5-title">Until Every Birthday,<br/>and Every Day Between</h2>
+      <div class="divider"></div>
+
+      <p class="s5-verse">
+        "You are the chapter I never want to end,<br/>
+        the name I'll still be writing when I'm old —<br/>
+        every birthday I unwrap a better world<br/>
+        simply because it holds you."
+      </p>
+
+      <div class="s5-promise">
+        <strong style="font-style:normal; color:var(--deeprose);">InshaAllah</strong> —<br/>
+        we will be together for the next birthday<br/>
+        and every one after that. 🤲<br/>
+        <br/>
+        <span style="font-size:.95em; color:var(--soft);">Every sunrise will know your name.<br/>
+        Every year will begin with your smile.</span>
+      </div>
+
+      <button class="btn btn-finale" onclick="celebrate()">
+        Celebrate! &nbsp;🎉
+      </button>
+    </div>
+  </div>
+
+</div><!-- end #stage -->
+
+<script>
+/* ── State ── */
+let current = 1;
+const total  = 5;
+
+function nextSlide() {
+  if (current >= total) return;
+  document.getElementById('slide-' + current).classList.remove('active');
+  current++;
+  const next = document.getElementById('slide-' + current);
+  next.classList.add('active');
+  updateDots();
+}
+
+function updateDots() {
+  document.querySelectorAll('.dot').forEach((d, i) => {
+    d.classList.toggle('active', i === current - 1);
+  });
+}
+
+/* ── Floating petal canvas ── */
+const canvas = document.getElementById('petal-canvas');
+const ctx    = canvas.getContext('2d');
+let W, H, petals = [];
+
+const PETAL_EMOJIS = ['🌸','🌷','✿','❀','🌺'];
+const PETAL_COUNT  = window.innerWidth < 500 ? 18 : 28;
+
+function resize() {
+  W = canvas.width  = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resize);
+resize();
+
+function randomPetal() {
+  return {
+    emoji: PETAL_EMOJIS[Math.floor(Math.random() * PETAL_EMOJIS.length)],
+    x: Math.random() * W,
+    y: -40 - Math.random() * 200,
+    size: 14 + Math.random() * 16,
+    speed: .4 + Math.random() * .7,
+    drift: (Math.random() - .5) * .5,
+    spin: (Math.random() - .5) * .03,
+    angle: Math.random() * Math.PI * 2,
+    opacity: .35 + Math.random() * .4
+  };
+}
+
+for (let i = 0; i < PETAL_COUNT; i++) {
+  const p = randomPetal();
+  p.y = Math.random() * H; // scatter on first load
+  petals.push(p);
+}
+
+function animatePetals() {
+  ctx.clearRect(0, 0, W, H);
+  for (const p of petals) {
+    ctx.save();
+    ctx.globalAlpha = p.opacity;
+    ctx.font = `${p.size}px serif`;
+    ctx.translate(p.x, p.y);
+    ctx.rotate(p.angle);
+    ctx.fillText(p.emoji, -p.size/2, p.size/2);
+    ctx.restore();
+    p.y     += p.speed;
+    p.x     += p.drift;
+    p.angle += p.spin;
+    if (p.y > H + 40) Object.assign(p, randomPetal());
+  }
+  requestAnimationFrame(animatePetals);
+}
+animatePetals();
+
+/* ── Celebration burst ── */
+const BURST_ITEMS = ['💕','🎊','🌸','✨','💖','🎉','🌷','💫','🎀','❤️'];
+
+function celebrate() {
+  const cx = window.innerWidth  / 2;
+  const cy = window.innerHeight / 2;
+  const count = 60;
+
+  for (let i = 0; i < count; i++) {
+    setTimeout(() => {
+      const el    = document.createElement('div');
+      el.classList.add('burst-particle');
+      el.textContent = BURST_ITEMS[Math.floor(Math.random() * BURST_ITEMS.length)];
+
+      const angle  = Math.random() * Math.PI * 2;
+      const dist   = 120 + Math.random() * 260;
+      const tx     = Math.cos(angle) * dist;
+      const ty     = Math.sin(angle) * dist - 80;
+      const rot    = (Math.random() - .5) * 540 + 'deg';
+      const dur    = (.9 + Math.random() * .8) + 's';
+
+      el.style.setProperty('--tx',  tx  + 'px');
+      el.style.setProperty('--ty',  ty  + 'px');
+      el.style.setProperty('--rot', rot);
+      el.style.setProperty('--dur', dur);
+      el.style.left = cx + 'px';
+      el.style.top  = cy + 'px';
+
+      document.body.appendChild(el);
+      el.addEventListener('animationend', () => el.remove());
+    }, i * 28);
+  }
+}
+</script>
+</body>
+</html>
